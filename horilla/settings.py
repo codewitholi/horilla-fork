@@ -31,11 +31,6 @@ env = environ.Env(
     ),
     ALLOWED_HOSTS=(list, ["*"]),
     CSRF_TRUSTED_ORIGINS=(list, ["http://localhost:8000"]),
-    HORILLA_EMAIL_USE_TLS=(bool, True),
-    HORILLA_EMAIL_HOST=(str, None),
-    HORILLA_EMAIL_PORT=(int, None),
-    HORILLA_EMAIL_HOST_USER=(str, None),
-    HORILLA_EMAIL_HOST_PASSWORD=(str, None),
 )
 
 env.read_env(os.path.join(BASE_DIR, ".env"), overwrite=True)
@@ -234,21 +229,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-# Email Configuration
-is_email_configured: bool = (
-    env("HORILLA_EMAIL_HOST")
-    and env("HORILLA_EMAIL_PORT")
-    and env("HORILLA_EMAIL_HOST_USER")
-    and env("HORILLA_EMAIL_HOST_PASSWORD")
-)
-
-if is_email_configured:
-    EMAIL_USE_TLS = env("HORILLA_EMAIL_USE_TLS")
-    EMAIL_HOST = env("HORILLA_EMAIL_HOST")
-    EMAIL_PORT = env("HORILLA_EMAIL_PORT")
-    EMAIL_HOST_USER = env("HORILLA_EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = env("HORILLA_EMAIL_HOST_PASSWORD")
 
 # Production settings
 if not DEBUG:
