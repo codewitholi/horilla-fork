@@ -35,10 +35,17 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
+# Install django-storages
+RUN pip install 'django-storages[s3]'
+# Install webserver
+
 RUN pip install 'granian'
 
 COPY --chown=$CTR_UID:$CTR_GID . .
 
 RUN chmod +x /app/production/prepare_server.sh /app/production/wait_pg_ready.sh
+
+# Move settings file
+RUN cp /app/production/production_settings.py /app/horilla/production_settings.py
 
 ENTRYPOINT ["/bin/bash", "-c"]
