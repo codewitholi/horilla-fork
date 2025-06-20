@@ -10,7 +10,7 @@ RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-k
 
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" >> /etc/apt/sources.list.d/pgdg.list
 RUN apt-get update -y
-RUN apt-get install -y libcairo2-dev gcc libpq-dev postgresql-client-common postgresql-common postgresql-16 postgresql-client-16 postgresql-contrib-16
+RUN apt-get install -y libcairo2-dev gcc libpq-dev postgresql-client-common postgresql-common postgresql-16 postgresql-client-16 postgresql-contrib-16 vim
 RUN rm -rf /var/lib/apt/lists/* &&  apt clean
 
 WORKDIR /app/
@@ -36,7 +36,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Install django-storages
-RUN pip install 'django-storages[s3]'
+RUN pip install 'django-storages[s3]' pytest
 # Install webserver
 
 RUN pip install 'granian'
