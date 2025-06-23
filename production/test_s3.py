@@ -21,7 +21,7 @@ import boto3.session
 import pytest
 
 bucket_name: str = os.environ["AWS_STORAGE_BUCKET_NAME"]
-ssl_verify: bool = bool(os.environ.get("SSL_VERIFY", "True") == "True")
+ssl_verify: bool = bool(os.environ.get("AWS_S3_VERIFY", "True") == "True")
 
 
 @pytest.fixture()
