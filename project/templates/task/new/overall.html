@@ -131,11 +131,11 @@
         }
         // Load new scripts
         $.getScript("{% static 'build/js/web.frontend.min.js' %}", function () { });
-        $.getScript("{% static '/project/task_pipeline.js' %}", function () { });
+        $.getScript("{% static 'project/task_pipeline.js' %}", function () { });
     });
 </script>
 
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script src="{% static '/project/task_pipeline.js' %}"></script>
+<script src="{% static 'project/task_pipeline.js' %}"></script>
 {% endblock content %}
