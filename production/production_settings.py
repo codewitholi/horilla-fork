@@ -193,7 +193,7 @@ ssl_verify: bool = bool(os.environ.get("AWS_S3_VERIFY", "True") == "True")
 aws_access_key_id: str = os.environ["AWS_S3_ACCESS_KEY_ID"]
 aws_secret_access_key: str = os.environ["AWS_S3_SECRET_ACCESS_KEY"]
 
-region_name_val: str = os.environ.get("AWS_S3_REGION_NAME"], None)
+region_name_val: str = os.environ.get("AWS_S3_REGION_NAME", None)
 region_name: str = region_name_val if (region_name_val is not None and region_name_val != "") else None
 endpoint_url: str = os.environ["AWS_S3_ENDPOINT_URL"]
 
