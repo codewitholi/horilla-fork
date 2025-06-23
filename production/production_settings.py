@@ -208,7 +208,7 @@ STORAGES = {
             "region_name": region_name,
             "verify": ssl_verify,
             "endpoint_url": endpoint_url,
-            "aws_location": aws_location,
+            "location": aws_location,
         },
     },
     "staticfiles": {
@@ -220,7 +220,7 @@ STORAGES = {
             "region_name": region_name,
             "verify": ssl_verify,
             "endpoint_url": endpoint_url,
-            "aws_location": aws_location,
+            "location": aws_location,
         },
     },
 }
