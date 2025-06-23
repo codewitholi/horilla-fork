@@ -15,7 +15,7 @@ def generate_static_url(asset_path: str) -> str:
     Returns:
         The static URL path
     """
-    staticstorage = storages.get("staticfiles")
+    staticstorage = storages["staticfiles"]
     # If not specified or not a S3 storage, we are serving from DEBUG mode.
     if not isinstance(staticstorage, S3Storage):
         #static_url: str = getattr(settings, "STATIC_URL", lambda: None)

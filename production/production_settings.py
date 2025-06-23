@@ -231,7 +231,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-staticstorage = storages.get("staticfiles")
+staticstorage = storages["staticfiles"]
 
 STATIC_URL = staticstorage.url("test.txt").split("test.txt")[0]
 
