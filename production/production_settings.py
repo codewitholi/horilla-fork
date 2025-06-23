@@ -189,6 +189,11 @@ AUTH_PASSWORD_VALIDATORS = [
 #
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 ssl_verify: bool = bool(os.environ.get("AWS_S3_VERIFY", "True") == "True")
 aws_access_key_id: str = os.environ["AWS_S3_ACCESS_KEY_ID"]
 aws_secret_access_key: str = os.environ["AWS_S3_SECRET_ACCESS_KEY"]
