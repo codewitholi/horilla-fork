@@ -192,6 +192,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ssl_verify: bool = bool(os.environ.get("AWS_S3_VERIFY", "True") == "True")
 aws_access_key_id: str = os.environ["AWS_S3_ACCESS_KEY_ID"]
 aws_secret_access_key: str = os.environ["AWS_S3_SECRET_ACCESS_KEY"]
+aws_location: str = os.environ["AWS_LOCATION"]
 
 region_name_val: str = os.environ.get("AWS_S3_REGION_NAME", None)
 region_name: str = region_name_val if (region_name_val is not None and region_name_val != "") else None
@@ -207,6 +208,7 @@ STORAGES = {
             "region_name": region_name,
             "verify": ssl_verify,
             "endpoint_url": endpoint_url,
+            "aws_location": aws_location,
         },
     },
     "staticfiles": {
@@ -218,6 +220,7 @@ STORAGES = {
             "region_name": region_name,
             "verify": ssl_verify,
             "endpoint_url": endpoint_url,
+            "aws_location": aws_location,
         },
     },
 }
