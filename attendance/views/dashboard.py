@@ -35,6 +35,7 @@ from employee.models import Employee
 from horilla import settings
 from horilla.decorators import hx_request_required, login_required
 from horilla.methods import get_horilla_model_class
+from production.utilities import generate_static_url
 
 
 def find_on_time(request, today, week_day, department=None):
@@ -453,7 +454,8 @@ def department_overtime_chart(request):
         "labels": departments,
         "department_total": department_total,
         "message": _("No validated Overtimes were found"),
-        "emptyImageSrc": f"/{settings.STATIC_URL}images/ui/overtime-icon.png",
+        #"emptyImageSrc": f"/{settings.STATIC_URL}images/ui/overtime-icon.png",
+        "emptyImageSrc": generate_static_url("images/ui/overtime-icon.png"),
     }
 
     return JsonResponse(response)

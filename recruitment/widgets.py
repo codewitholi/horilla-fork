@@ -9,6 +9,7 @@ from django import forms
 from django.utils.safestring import mark_safe
 
 from horilla import settings
+from production.utilities import generate_static_url
 
 # your your widgets
 
@@ -21,8 +22,14 @@ class RecruitmentAjaxWidget(forms.Widget):
 
     def render(self, name, value, attrs=None, renderer=None):
         # Exclude the label from the rendered HTML
-        rendered_script = f'<link href="/{settings.STATIC_URL}recruitment/widget/recruitment_widget_style.css">\
-            </link><script src="/{settings.STATIC_URL}recruitment/widget/recruitmentAjax.js"></script>'
+        script_css: str = generate_static_url("recruitment/widget/recruitment_widget_style.css")
+        script_url: str = generate_static_url("recruitment/widget/recruitmentAjax.js")
+
+        #rendered_script = f'<link href="/{settings.STATIC_URL}recruitment/widget/recruitment_widget_style.css">\
+        #    </link><script src="/{settings.STATIC_URL}recruitment/widget/recruitmentAjax.js"></script>'
+
+        rendered_script = f'<link href="{script_css}">\
+            </link><script src="{script_url}"></script>'
 
         additional_script = f"""
         <script id="{name}Script">

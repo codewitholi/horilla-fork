@@ -16,6 +16,7 @@ from pathlib import Path
 
 # django-environ
 import environ
+from django.core.files.storage import storages
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -188,12 +189,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # ]
 #
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
-
-
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-
 ssl_verify: bool = bool(os.environ.get("AWS_S3_VERIFY", "True") == "True")
 aws_access_key_id: str = os.environ["AWS_S3_ACCESS_KEY_ID"]
 aws_secret_access_key: str = os.environ["AWS_S3_SECRET_ACCESS_KEY"]
@@ -229,6 +224,17 @@ STORAGES = {
         },
     },
 }
+
+
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+staticstorage = storages.get("staticfiles")
+
+STATIC_URL = staticstorage.url("test.txt").split("test.txt")[0]
+
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")

@@ -6,6 +6,7 @@ from django import forms
 from django.utils.safestring import SafeText, mark_safe
 
 from horilla import settings
+from production.utilities import generate_static_url
 
 
 class AllowanceConditionalVisibility(forms.Widget):
@@ -20,8 +21,10 @@ class AllowanceConditionalVisibility(forms.Widget):
 
     def render(self, name, value, attrs=None, renderer=None):
         # Exclude the label from the rendered HTML
+        script_url: str = generate_static_url("build/js/allowanceWidget.js")
         rendered_script = (
-            f'<script src="/{settings.STATIC_URL}build/js/allowanceWidget.js"></script>'
+            #f'<script src="/{settings.STATIC_URL}build/js/allowanceWidget.js"></script>'
+            f'<script src="{script_url}"></script>',
         )
         additional_script = f"""
         <script id="{name}Script">
@@ -48,8 +51,10 @@ class DeductionConditionalVisibility(forms.Widget):
 
     def render(self, name, value, attrs, renderer) -> SafeText:
         # Exclude the label from the rendered HTML
+        script_url: str = generate_static_url("build/js/deductionWidget.js")
         rendered_script = (
-            f'<script src="/{settings.STATIC_URL}build/js/deductionWidget.js"></script>'
+            #f'<script src="/{settings.STATIC_URL}build/js/deductionWidget.js"></script>'
+            f'<script src="{script_url}"></script>',
         )
         additional_script = f"""
         <script id="{name}Script">
@@ -99,9 +104,12 @@ class StyleWidget(forms.Widget):
         Returns:
             str: The rendered HTML representation of the widget.
         """
+        script_url: str = generate_static_url("build/js/styleWidget.js")
         rendered_script = (
-            f'<script src="/{settings.STATIC_URL}build/js/styleWidget.js"></script>'
+            #f'<script src="/{settings.STATIC_URL}build/js/styleWidget.js"></script>'
+            f'<script src="{script_url}"></script>',
         )
+        css_url: str = generate_static_url("build/js/styleWidget.css")
         additional_script = f"""
         <script id="{name}Script">
             $(document).ready(function () {{
@@ -127,7 +135,8 @@ class StyleWidget(forms.Widget):
                 toggleSelect2();
             }});
         </script>
-        <link rel="stylesheet" type="text/css" href="/{settings.STATIC_URL}build/css/styleWidget.css">
+        <!-- <link rel="stylesheet" type="text/css" href="/{settings.STATIC_URL}build/css/styleWidget.css"> -->
+        <link rel="stylesheet" type="text/css" href="{css_url}">
         """
         attrs = attrs or {}
         attrs["required"] = False

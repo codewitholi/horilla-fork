@@ -653,7 +653,7 @@ def check_owner(employee, instance):
     except:
         return False
 
-
+# Dead code below
 def link_callback(uri, rel):
     """
     Convert HTML URIs to absolute system paths so xhtml2pdf can access those

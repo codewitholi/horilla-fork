@@ -73,6 +73,7 @@ from horilla.group_by import group_by_queryset
 from horilla.horilla_settings import HORILLA_DATE_FORMATS
 from horilla.methods import horilla_users_with_perms
 from notifications.signals import notify
+from production.utilities import generate_static_url
 
 
 def asset_del(request, asset):
@@ -1636,12 +1637,13 @@ def asset_available_chart(_request):
             "data": [len(asset_in_use), len(asset_available), len(asset_unavailable)],
         },
     ]
+    asset_url: str = generate_static_url("images/ui/asset.png")
 
     response = {
         "labels": labels,
         "dataset": dataset,
         "message": _("Oops!! No Asset found..."),
-        "emptyImageSrc": f"/{settings.STATIC_URL}images/ui/asset.png",
+        "emptyImageSrc": asset_url,
     }
     return JsonResponse(response)
 
@@ -1666,12 +1668,14 @@ def asset_category_chart(_request):
             "data": data,
         },
     ]
+    asset_url: str = generate_static_url("images/ui/asset.png")
 
     response = {
         "labels": labels,
         "dataset": dataset,
         "message": _("Oops!! No Asset found..."),
-        "emptyImageSrc": f"/{settings.STATIC_URL}images/ui/asset.png",
+        #"emptyImageSrc": f"/{settings.STATIC_URL}images/ui/asset.png",
+        "emptyImageSrc": asset_url,
     }
     return JsonResponse(response)
 
