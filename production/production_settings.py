@@ -48,15 +48,13 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.sites",
+    #"django.contrib.sites",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "auditlog",
-    "storages",
     "notifications",
     "mathfilters",
     "corsheaders",
@@ -73,9 +71,10 @@ INSTALLED_APPS = [
     "payroll",
     "widget_tweaks",
     "django_apscheduler",
+    "storages",  # Add storages
 ]
 
-SITE_ID = 1
+#SITE_ID = 1
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds

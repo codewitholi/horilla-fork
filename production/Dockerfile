@@ -46,6 +46,7 @@ COPY --chown=$CTR_UID:$CTR_GID . .
 RUN chmod +x /app/production/prepare_server.sh /app/production/wait_pg_ready.sh
 
 # Move settings file
-RUN cp /app/production/production_settings.py /app/horilla/production_settings.py
+#RUN cp /app/production/production_settings.py /app/horilla/production_settings.py
+RUN --chown=$CTR_UID:$CTR_GID cp /app/production/production_settings.py /app/horilla/settings.py
 
 ENTRYPOINT ["/bin/bash", "-c"]
