@@ -192,11 +192,15 @@ AUTH_PASSWORD_VALIDATORS = [
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
-        "OPTIONS": {},
+        "OPTIONS": {
+            "bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
+        },
     },
     "staticfiles": {
         "BACKEND": "storages.backends.s3.S3Storage",
-        "OPTIONS": {},
+        "OPTIONS": {
+            "bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
+        },
     },
 }
 
