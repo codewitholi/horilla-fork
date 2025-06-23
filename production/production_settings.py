@@ -189,17 +189,35 @@ AUTH_PASSWORD_VALIDATORS = [
 #
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
+ssl_verify: bool = bool(os.environ.get("AWS_S3_VERIFY", "True") == "True")
+aws_access_key_id: str = os.environ["AWS_S3_ACCESS_KEY_ID"]
+aws_secret_access_key: str = os.environ["AWS_S3_SECRET_ACCESS_KEY"]
+
+region_name_val: str = os.environ.get("AWS_S3_REGION_NAME"], None)
+region_name: str = region_name_val if (region_name_val is not None and region_name_val != "") else None
+endpoint_url: str = os.environ["AWS_S3_ENDPOINT_URL"]
+
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
             "bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
+            "access_key": aws_access_key_id,
+            "secret_key": aws_secret_access_key,
+            "region_name": region_name,
+            "verify": ssl_verify,
+            "endpoint_url": endpoint_url,
         },
     },
     "staticfiles": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
             "bucket_name": os.environ["AWS_STORAGE_BUCKET_NAME"],
+            "access_key": aws_access_key_id,
+            "secret_key": aws_secret_access_key,
+            "region_name": region_name,
+            "verify": ssl_verify,
+            "endpoint_url": endpoint_url,
         },
     },
 }
