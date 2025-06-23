@@ -21,6 +21,7 @@ import boto3.session
 import pytest
 
 bucket_name: str = os.environ["AWS_STORAGE_BUCKET_NAME"]
+ssl_verify: bool = bool(os.environ.get("SSL_VERIFY", "True") == "True")
 
 
 @pytest.fixture()
@@ -32,7 +33,9 @@ def boto3_s3_client() -> Any:
         region_name=os.environ["AWS_S3_REGION_NAME"],
     )
     s3 = session.client(
-        service_name="s3", endpoint_url=os.environ["AWS_S3_ENDPOINT_URL"]
+        service_name="s3",
+        endpoint_url=os.environ["AWS_S3_ENDPOINT_URL"],
+        verify=ssl_verify,
     )
 
     return s3
