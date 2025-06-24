@@ -16,8 +16,8 @@ from pathlib import Path
 
 # django-environ
 import environ
-from django.core.files.storage import storages
 from django.contrib.messages import constants as messages
+from django.core.files.storage import storages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +33,7 @@ env = environ.Env(
     ),
     ALLOWED_HOSTS=(list, ["*"]),
     CSRF_TRUSTED_ORIGINS=(list, ["http://localhost:8000"]),
+    CACHE_REDIS_DSN=(str, "xxx"),
 )
 
 # Do not use this
@@ -49,7 +50,7 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 # Application definition
 
 INSTALLED_APPS = [
-    #"django.contrib.sites",
+    # "django.contrib.sites",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -75,7 +76,7 @@ INSTALLED_APPS = [
     "storages",  # Add storages
 ]
 
-#SITE_ID = 1
+# SITE_ID = 1
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
@@ -83,7 +84,9 @@ APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # "whitenoise.middleware.WhiteNoiseMiddleware",
+    # Add before Vary headers
+    "django.middleware.cache.UpdateCacheMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -93,6 +96,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Add after Vary headers
+    "django.middleware.cache.FetchFromCacheMiddleware",
 ]
 
 ROOT_URLCONF = "horilla.urls"
@@ -195,7 +200,9 @@ aws_secret_access_key: str = os.environ["AWS_S3_SECRET_ACCESS_KEY"]
 aws_location: str = os.environ["AWS_LOCATION"]
 
 region_name_val: str = os.environ.get("AWS_S3_REGION_NAME", None)
-region_name: str = region_name_val if (region_name_val is not None and region_name_val != "") else None
+region_name: str = (
+    region_name_val if (region_name_val is not None and region_name_val != "") else None
+)
 endpoint_url: str = os.environ["AWS_S3_ENDPOINT_URL"]
 
 STORAGES = {
@@ -226,7 +233,6 @@ STORAGES = {
 }
 
 
-
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
@@ -234,6 +240,14 @@ STATICFILES_DIRS = [
 staticstorage = storages["staticfiles"]
 
 STATIC_URL = staticstorage.url("test.txt").split("test.txt")[0]
+
+# CACHE
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": env("CACHE_REDIS_DSN"),
+    }
+}
 
 
 MEDIA_URL = "/media/"
