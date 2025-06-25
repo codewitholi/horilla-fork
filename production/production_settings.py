@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "django_apscheduler",
     "storages",  # Add storages
+    "debug_toolbar",  # Add django-debug-toolbar
 ]
 
 # SITE_ID = 1
@@ -83,7 +84,9 @@ APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
 
 MIDDLEWARE = [
+    # Add Django Debug Toolbar
     "django.middleware.security.SecurityMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     # "whitenoise.middleware.WhiteNoiseMiddleware",
     # Add before Vary headers
     # "django.middleware.cache.UpdateCacheMiddleware",
@@ -372,3 +375,9 @@ LOGGING = {
 
 print("---LOGGING---")
 print(f"LOGGING: {LOGGING}")
+
+
+DEBUG_TOOLBAR_CONFIG = {}
+
+if DEBUG:
+    DEBUG_TOOLBAR_CONFIG["SHOW_TOOLBAR_CALLBACK"] = lambda request: True
