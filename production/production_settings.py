@@ -387,5 +387,6 @@ DEBUG_TOOLBAR_CONFIG = {
 INTERNAL_IPS = [
     "127.0.0.1",
     "100.64.0.16",
+    "100.64.0.1",
     "ambhr.codewitholi.com",
 ]
