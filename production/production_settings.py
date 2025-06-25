@@ -335,18 +335,26 @@ LOGGING = {
     "handlers": {
         "console": {
             "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "verbose",
         },
     },
-    "root": {
-        "handlers": ["console"],
-        "level": "DEBUG",
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
     },
+    # "root": {
+    #    "handlers": ["console"],
+    #    "level": "DEBUG",
+    # },
     "loggers": {
         "django": {
             "handlers": ["console"],
             # "level": os.getenv("DJANGO_LOG_LEVEL", "DEBUG"),
             "level": "DEBUG",
-            "propagate": False,
+            "propagate": True,
         },
     },
 }
