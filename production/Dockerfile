@@ -40,7 +40,7 @@ RUN pip install 'django-storages[s3]' pytest "redis[hiredis]"
 RUN pip install verbose_csrf_middleware
 # Install webserver
 
-RUN pip install 'granian'
+RUN pip install 'gunicorn'
 
 COPY --chown=$CTR_UID:$CTR_GID . .
 
