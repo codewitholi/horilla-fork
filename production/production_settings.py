@@ -274,6 +274,8 @@ MESSAGE_TAGS = {
 
 CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 
+print(f"CSRF_TRUSTED_ORIGINS: {CSRF_TRUSTED_ORIGINS}")
+
 LOGIN_URL = "/login"
 
 
@@ -358,3 +360,6 @@ LOGGING = {
         },
     },
 }
+
+print("---LOGGING---")
+print(f"LOGGING: {LOGGING}")
