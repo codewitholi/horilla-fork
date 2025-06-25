@@ -377,7 +377,9 @@ print("---LOGGING---")
 print(f"LOGGING: {LOGGING}")
 
 
-DEBUG_TOOLBAR_CONFIG = {}
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": "production.utilities.debug_toolbar_cb"
+}
 
-if DEBUG:
-    DEBUG_TOOLBAR_CONFIG["SHOW_TOOLBAR_CALLBACK"] = lambda request: True
+# if DEBUG:
+#    DEBUG_TOOLBAR_CONFIG["SHOW_TOOLBAR_CALLBACK"] = lambda request: True
