@@ -36,7 +36,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Install django-storages
-RUN pip install 'django-storages[s3]' pytest
+RUN pip install 'django-storages[s3]' pytest "redis[hiredis]"
 # Install webserver
 
 RUN pip install 'granian'
