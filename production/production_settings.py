@@ -33,7 +33,7 @@ env = environ.Env(
     ),
     ALLOWED_HOSTS=(list, ["*"]),
     CSRF_TRUSTED_ORIGINS=(list, ["http://localhost:8000"]),
-    CACHE_REDIS_DSN=(str, "xxx"),
+    # CACHE_REDIS_DSN=(str, "xxx"),
 )
 
 # Do not use this
@@ -92,12 +92,12 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
     "django.middleware.locale.LocaleMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Add after Vary headers
     "django.middleware.cache.FetchFromCacheMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
 ]
 
 ROOT_URLCONF = "horilla.urls"
@@ -242,10 +242,15 @@ staticstorage = storages["staticfiles"]
 STATIC_URL = staticstorage.url("test.txt").split("test.txt")[0]
 
 # CACHE
+redis_host: str = env("CACHE_REDIS_HOST")
+redis_port: str = env("CACHE_REDIS_PORT")
+redis_password: str = env("CACHE_REDIS_PASSWORD")
+redis_username: str = os.environ.get("CACHE_REDIS_USERNAME", "")
+redis_conn: str = f"redis://{redis_username}:{redis_password}@{redis_host}:{redis_port}"
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": env("CACHE_REDIS_DSN"),
+        "LOCATION": redis_conn,
     }
 }
 
