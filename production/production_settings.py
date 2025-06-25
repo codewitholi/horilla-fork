@@ -360,6 +360,12 @@ LOGGING = {
             "level": "DEBUG",
             "propagate": True,
         },
+        "django.security.csrf": {
+            "handlers": ["console"],
+            # "level": os.getenv("DJANGO_LOG_LEVEL", "DEBUG"),
+            "level": "DEBUG",
+            "propagate": True,
+        },
     },
 }
 
