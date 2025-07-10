@@ -74,7 +74,8 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "django_apscheduler",
     "storages",  # Add storages
-    "debug_toolbar",  # Add django-debug-toolbar
+    # "debug_toolbar",  # Add django-debug-toolbar
+    "silk",
 ]
 
 # SITE_ID = 1
@@ -86,7 +87,6 @@ APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 MIDDLEWARE = [
     # Add Django Debug Toolbar
     "django.middleware.security.SecurityMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     # "whitenoise.middleware.WhiteNoiseMiddleware",
     # Add before Vary headers
     # "django.middleware.cache.UpdateCacheMiddleware",
@@ -95,6 +95,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "simple_history.middleware.HistoryRequestMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "silk.middleware.SilkyMiddleware",
     # "django.middleware.csrf.CsrfViewMiddleware",
     "verbose_csrf_middleware.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -219,7 +220,9 @@ STORAGES = {
             "region_name": region_name,
             "verify": ssl_verify,
             "endpoint_url": endpoint_url,
-            "location": aws_location,
+            # "location": aws_location,
+            # Used for media, non-static assets.
+            "location": "horilla-default",
         },
     },
     "staticfiles": {
@@ -376,13 +379,9 @@ LOGGING = {
 print("---LOGGING---")
 print(f"LOGGING: {LOGGING}")
 
+SILKY_AUTHENTICATION = True  # User must login
+SILKY_AUTHORISATION = True  # User must have permissions
 
-DEBUG_TOOLBAR_CONFIG = {
-    "SHOW_TOOLBAR_CALLBACK": "production.utilities.debug_toolbar_cb"
-}
-
-# if DEBUG:
-#    DEBUG_TOOLBAR_CONFIG["SHOW_TOOLBAR_CALLBACK"] = lambda request: True
 
 INTERNAL_IPS = [
     "127.0.0.1",

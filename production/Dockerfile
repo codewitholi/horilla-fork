@@ -38,7 +38,7 @@ RUN pip install -r requirements.txt
 # Install django-storages
 RUN pip install 'django-storages[s3]' pytest "redis[hiredis]"
 RUN pip install verbose_csrf_middleware
-RUN pip install django-debug-toolbar
+RUN pip install 'django-silk[formatting]'
 # Install webserver
 
 RUN pip install 'gunicorn'

@@ -11,6 +11,7 @@ from django.apps import apps
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
+from silk.profiling.profiler import silk_profile
 
 from attendance.filters import (
     AttendanceFilters,
@@ -177,6 +178,7 @@ def dashboard_approve_overtimes(request):
     return render(request, "attendance/dashboard/overtime_table.html", context)
 
 
+# TODO: Oliver
 @login_required
 @hx_request_required
 def dashboard_validate_attendances(request):
@@ -187,32 +189,33 @@ def dashboard_validate_attendances(request):
     been validated. Only records belonging to active employees and accessible
     subordinates, as determined by the user's permissions, are included in the results.
     """
-    main_dashboard = None
-    referer = request.META.get("HTTP_REFERER", "/")
-    referer = "/" + "/".join(referer.split("/")[3:])
-    if referer == "/":
-        main_dashboard = True
-    page_number = request.GET.get("page")
-    validate_attendances = Attendance.objects.filter(
-        attendance_validated=False, employee_id__is_active=True
-    )
+    with silk_profile(name="Dashboard Validate Attendances"):
+        main_dashboard = None
+        referer = request.META.get("HTTP_REFERER", "/")
+        referer = "/" + "/".join(referer.split("/")[3:])
+        if referer == "/":
+            main_dashboard = True
+        page_number = request.GET.get("page")
+        validate_attendances = Attendance.objects.filter(
+            attendance_validated=False, employee_id__is_active=True
+        )
 
-    validate_attendances = filtersubordinates(
-        request=request,
-        perm="attendance.change_overtime",
-        queryset=validate_attendances,
-    )
+        validate_attendances = filtersubordinates(
+            request=request,
+            perm="attendance.change_overtime",
+            queryset=validate_attendances,
+        )
 
-    validate_id_list = [val.id for val in validate_attendances]
-    validate_attendances_ids = json.dumps(list(validate_id_list))
+        validate_id_list = [val.id for val in validate_attendances]
+        validate_attendances_ids = json.dumps(list(validate_id_list))
 
-    validate_attendances = paginator_qry(validate_attendances, page_number)
-    context = {
-        "validate_attendances": validate_attendances,
-        "validate_attendances_ids": validate_attendances_ids,
-        "main_dashboard": main_dashboard,
-    }
-    return render(request, "attendance/dashboard/to_validate_table.html", context)
+        validate_attendances = paginator_qry(validate_attendances, page_number)
+        context = {
+            "validate_attendances": validate_attendances,
+            "validate_attendances_ids": validate_attendances_ids,
+            "main_dashboard": main_dashboard,
+        }
+        return render(request, "attendance/dashboard/to_validate_table.html", context)
 
 
 def total_attendance(start_date, department, end_date=None):
@@ -454,7 +457,7 @@ def department_overtime_chart(request):
         "labels": departments,
         "department_total": department_total,
         "message": _("No validated Overtimes were found"),
-        #"emptyImageSrc": f"/{settings.STATIC_URL}images/ui/overtime-icon.png",
+        # "emptyImageSrc": f"/{settings.STATIC_URL}images/ui/overtime-icon.png",
         "emptyImageSrc": generate_static_url("images/ui/overtime-icon.png"),
     }
 
