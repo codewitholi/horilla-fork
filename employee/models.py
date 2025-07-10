@@ -224,9 +224,10 @@ class Employee(models.Model):
         )
 
     def get_avatar(self):
-        if self.employee_profile and default_storage.exists(self.employee_profile.name):
-            return self.employee_profile.url
-        return static("images/ui/default_avatar.jpg")
+        # if self.employee_profile and default_storage.exists(self.employee_profile.name):
+        #    return self.employee_profile.url
+        # return static("images/ui/default_avatar.jpg")
+        return self.employee_profile.url
 
     def get_leave_status(self):
         """

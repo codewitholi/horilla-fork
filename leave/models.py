@@ -217,10 +217,10 @@ class LeaveType(HorillaModel):
         """
         url = f"https://ui-avatars.com/api/?name={self.name}&background=random"
         if self.icon:
-            full_filename = self.icon.name
+            # full_filename = self.icon.name
 
-            if default_storage.exists(full_filename):
-                url = self.icon.url
+            # if default_storage.exists(full_filename):
+            url = self.icon.url
         return url
 
     def leave_type_next_reset_date(self):
