@@ -381,6 +381,7 @@ print(f"LOGGING: {LOGGING}")
 
 SILKY_AUTHENTICATION = True  # User must login
 SILKY_AUTHORISATION = True  # User must have permissions
+SILKY_PYTHON_PROFILER = True
 
 
 INTERNAL_IPS = [
